@@ -8,6 +8,9 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -20,5 +23,14 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+# Add robot_chase_node
+add_executable(robot_chase src/robot_chase.cpp)
+ament_target_dependencies(robot_chase rclcpp nav_msgs geometry_msgs tf2_ros)
+
+install(TARGETS
+  robot_chase
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 ament_package()
